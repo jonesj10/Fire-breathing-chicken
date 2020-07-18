@@ -1,7 +1,6 @@
 from random import *
 import time
-import numpy as np
-
+import os
 
 def gridmake(size, trees):
     grid = []
@@ -28,6 +27,8 @@ def movement(desti, destj, grid, gridshow):
 
     f = open("location.txt", "w")
     
+
+
 #locations
     i = 0
     j = 0
@@ -40,6 +41,7 @@ def movement(desti, destj, grid, gridshow):
 
     print("\n "+ str(lim) + "\n ")
 
+    f.write(str(os.system("curl https://docs.google.com/spreadsheets/d/e/2PACX-1vQKFMF1ErW2VtHlclOYXxz6gK8KJFcgLnTNl2uvRQmlKbf9FvBGMytX7u1G7oCiITqroD97ymQwV7W5/pubhtml -o data.txt"))+"<br/lp")
     for row in grid:
         print(" ".join(str(row)))
         f.write(" ".join(str(row)) + "<br/>")

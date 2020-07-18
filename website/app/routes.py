@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for
 from app import app
 from app.forms import LoginForm
-
+import os
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -28,17 +28,9 @@ def index():
 
 @app.route('/nav')
 def nav():
+    os.system("python3 /home/ubuntu/fire-breathing-chicken/website/app/nav.py")
     return render_template('nav.html', title='Hello')
 
-
-@app.route('/interactive')
-def interactive():
-	return render_template('interactive.html')
-
-
-@app.route('/snake')
-def snake():
-    return render_template('snake.html')
 
 #rendering the HTML page which has the button
 @app.route('/json')
@@ -53,11 +45,26 @@ def background_process_test():
 
 
 
-@app.route('/table')
-def table():
-    with open("/home/jones/Documents/firebreathingchicken/fire-breathing-chicken/website/app/location.txt", "r") as f:
+@app.route('/map')
+def map():
+    with open("/home/ubuntu/fire-breathing-chicken/website/app/location.txt", "r") as f:
 
         
         content = f.read()
         print(content)
-    return content 
+
+    f.close()
+    return content
+
+
+
+@app.route('/table')
+def table():
+    with open("/home/ubuntu/fire-breathing-chicken/website/app/data.txt", "r") as v:
+
+
+        content = v.read()
+        print(content)
+    v.close()
+    return content
+
