@@ -1,7 +1,6 @@
 from random import *
 import time
 import numpy as np
-import json
 
 
 def gridmake(size, trees):
@@ -22,13 +21,13 @@ def gridmake(size, trees):
         grid[0][0] = "R"
 
 
-    for row in grid:
-        print(" ".join(str(row)))
 
-    print(json.dumps(grid))
     return grid
 
 def movement(desti, destj, grid, gridshow):
+
+    f = open("location.txt", "w")
+    
 #locations
     i = 0
     j = 0
@@ -37,6 +36,14 @@ def movement(desti, destj, grid, gridshow):
     j0 = 0
     lstmv = 0
     lim = len(grid)-1
+
+
+    print("\n "+ str(lim) + "\n ")
+
+    for row in grid:
+        print(" ".join(str(row)))
+        f.write(" ".join(str(row)) + "<br/>")
+
 
     while grid[9][9]!="R":
     #mv shows if the bot moved this cycle mv is usen instead of elif to prevent out-of-bounds errors
@@ -58,6 +65,26 @@ def movement(desti, destj, grid, gridshow):
                 gridshow[i0][j] = "B"
                 lstmv = "+i"
                 mv=1
+        if(j == lim and mv == 0):
+            if(grid[i+1][j] == "T" or grid[i+1][j] == "B" and grid[i-1][j] == "0" or grid[i-1][j] == "B"):
+                j0 = j
+                j = j-1
+                grid[i][j0] = "B"
+                gridshow[i][j0] = "B"
+                lstmv = "-j"
+                mv=1
+
+
+
+        if(i == lim and mv == 0):
+            if(grid[i][j+1] == "0" or grid[i][j+1] == "B" and grid[i][j-1] == "0"):
+                i0 = i
+                i = i-1
+                grid[i0][j] = "B"
+                gridshow[i0][j] = "B"
+                lstmv = "-i"
+                mv=1
+
 
 # change route after backtracking
         if(i != lim and j != lim and mv == 0 and i != 0 and j != 0):
@@ -98,11 +125,13 @@ def movement(desti, destj, grid, gridshow):
                     i = i-1
                     grid[i0][j] = "B"
                     gridshow[i0][j] = "B"
+                    mv = 1
                 if (lstmv =="+j"):
                     j0 = j
                     j = j-1
                     grid[i][j0] = "B"
                     gridshow[i][j0] = "B"
+                    mv = 1
 
         if(i==lim and j!= lim and mv == 0):
             if (lstmv == "+i"):
@@ -110,24 +139,28 @@ def movement(desti, destj, grid, gridshow):
                 i = i-1
                 grid[i0][j] = "B"
                 gridshow[i0][j] = "B"
+                mv = 1
             if (lstmv =="+j" and j != 0):
                 j0 = j
                 j = j-1
                 grid[i][j0] = "B"
                 gridshow[i][j0] = "B"
+                mv =1
 
         if(i!=lim and j == lim and mv==0):
-            if (lstmv == "+i"):
+            if (lstmv == "+i" and i != 0):
                 i0 = i 
                 i = i-1 
                 grid[i0][j] = "B"
                 gridshow[i0][j] = "B"
+                mv =1
 
             elif (lstmv =="+j"):
                 j0 = j 
                 j = j-1 
                 grid[i][j0] = "B"
                 gridshow[i][j0] = "B"
+                mv=1
         
 
 
@@ -194,8 +227,9 @@ def movement(desti, destj, grid, gridshow):
         print("\n------------------------------------------------------------------------------------\n")
         for rowshow in gridshow:
             print(" ".join(str(rowshow)))
-        time.sleep(.500)
+            f.write(" ".join(str(rowshow)) + "<br/>")
 
+        f.write("<br/>------------------------------------------------------------------------------------------------<br/>")
 
 
     print("\n------------------------------------------------------------------------------------\n")
